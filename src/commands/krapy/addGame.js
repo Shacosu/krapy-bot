@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
+const { SlashCommandBuilder } = require('discord.js');
 const dbClient = require('../../libs/db');
 
 const permissionRoles = ['833353225117368340', '1117945527036805311'];
@@ -21,7 +21,7 @@ module.exports = {
     async execute(interaction) {
         try {
             const memberRoles = interaction.member.roles.cache.map(role => role.id)
-            if (!permissionRoles.some(x => memberRoles.includes(x))) return interaction.reply('No tienes permisos para ejecutar este comando');
+            if (!permissionRoles.some(x => memberRoles.includes(x))) return interaction.reply('No tienes permisos para ejecutar este comando').then(() => setTimeout(() => interaction.deleteReply(), 5000));
             let input = await interaction.options.getString('add')
             let category = await interaction.options.getString('category');
             if (!input || !category) return interaction.reply('No se ha encontrado el link o la categoria');
